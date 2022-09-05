@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 
 const pages = [
   { name: "Home", value: "home" },
-  { name: "Novedades", value: "novetly" },
+  { name: "Novedades", value: "novelty" },
   { name: "Servicios", value: "service" },
   { name: "Staff", value: "staff" },
   { name: "Contacto", value: "contact" },

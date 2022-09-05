@@ -1,0 +1,1 @@
+export const APIPrivate = `${process.env.REACT_APP_API_PRIVATE_HOST}:${process.env.REACT_APP_API_PRIVATE_PORT}`;

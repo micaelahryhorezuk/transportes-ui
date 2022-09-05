@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { makeStyles } from '@mui/styles';
-import { Card, CardContent, CardMedia, Typography, Grid } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Grid, CircularProgress } from '@mui/material';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import { APIPrivate } from "../utils/constants";
+import axios from "axios";
 
 const useStyles = makeStyles({
     main: {
@@ -15,9 +18,17 @@ const useStyles = makeStyles({
       padding: '10px 10px 10px 10px',
       justifyContent: 'space-evenly',
     },
+    child: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: "1em"
+    },
     card: {
-      display: 'flex',
-      margin: '10px 10px 10px 10px',
+        width: "95vw",
+        display: 'flex',
+        margin: '10px 10px 10px 10px',
     },
     cardMedia: {
         maxHeight: '20vh',
@@ -28,35 +39,83 @@ const useStyles = makeStyles({
         margin:'auto 10px auto 10px',
 
     },
-    cardContent: {}
+    cardContent: {},
+    noMargin: {
+        margin: '0 !important',
+    }
 });
 
 function ServicePage() {
     const classes = useStyles();
+    const loaded = useRef(false);
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (loaded.current) return;
+        loaded.current = true;
+        setLoading(true);
+        axios.get(`${APIPrivate}/service`)
+        .then(res => {
+            setItems(res?.data || [])
+            setLoading(false)
+        })
+        .catch(err => {
+            console.error(err)
+            setLoading(false)
+        })
+    }, [loading])
+
+
 
     return (
         <main className={classes.main}>
-            <Grid className={classes.root} container>
-                <Grid item>
-                    <Card className={classes.card}>
-                        <CardMedia
-                            className={classes.cardMedia}
-                            component="img" // {item.image}
-                            alt="portada"
-                            image="images/service/maritimo.jpg" //{item.image}
-                        />
-                        <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="div">
-                                item.caption
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                item.description
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                            </Typography>
-                        </CardContent>
-                    </Card>
+        {
+            !loading 
+            ?
+                <Grid className={classes.root} container>
+                    {
+                        Array.isArray(items) && items.length > 0
+                        ? 
+                            items.map((item, index) => 
+                                <Grid key={index} item>
+                                    <Card className={classes.card}>
+                                        <CardMedia
+                                            className={classes.cardMedia}
+                                            component="img"
+                                            alt={"img-" + index}
+                                            image={item?.image || "images/default.png"}
+                                            onError={e => {
+                                                e.target.src = "images/default.png";
+                                            }}
+                                        />
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography gutterBottom variant="h5">
+                                                {item?.caption || ""}
+                                            </Typography>
+                                            <Typography variant="body2">
+                                                {item?.description || ""}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            )
+                        :
+                            <Grid className={classes.child} item>
+                                <Typography className={classes.noMargin} gutterBottom variant="body1">
+                                    No hay novedades para mostrar
+                                </Typography>
+                                <SentimentVeryDissatisfiedIcon fontSize="large"/>
+                            </Grid>
+                    }
                 </Grid>
-            </Grid>
+            : 
+                <Grid className={classes.root} container>
+                    <Grid className={classes.child} item>
+                        <CircularProgress />
+                    </Grid>
+                </Grid>
+        }
         </main>
     );
 }
