@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { makeStyles } from '@mui/styles';
 import { Card, CardContent, CardMedia, Typography, Grid, CircularProgress } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { APIPrivate } from "../utils/constants";
 import axios from "axios";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     main: {
       display: 'flex',
       alignItems: 'center',
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
     noMargin: {
         margin: '0 !important',
     }
-});
+}));
 
 function ServicePage() {
     const classes = useStyles();

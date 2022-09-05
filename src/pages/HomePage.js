@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   main: {
     display: 'flex',
     alignItems: 'center',
@@ -29,12 +29,12 @@ const useStyles = makeStyles({
   headerCardContent: {},
   body: {},
   bodyCard: {
-    width: '95vw',
+    width: '90vw',
     display: 'flex',
     direction: 'column',
     margin: '15px 15px 15px 15px',
   },
-});
+}));
 
 const HomePage = () => {
   const classes = useStyles();

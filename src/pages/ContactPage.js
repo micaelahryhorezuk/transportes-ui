@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React, { useState } from 'react';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   main: {
     display: 'flex',
     alignItems: 'center',
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     justifyContent: 'space-around',
     gap: '1em'
   },
-});
+}));
 
 const ContactPage = () => {
   const classes = useStyles();
