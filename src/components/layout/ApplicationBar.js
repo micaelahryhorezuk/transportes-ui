@@ -15,6 +15,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import { useNavigate } from 'react-router-dom';
+import { setUserLoggedInfo } from '../../utils/functions';
 
 const pages = [
   { name: "Home", value: "home" },
@@ -22,8 +23,9 @@ const pages = [
   { name: "Servicios", value: "service" },
   { name: "Staff", value: "staff" },
   { name: "Contacto", value: "contact" },
+  { name: "Abm", value: "abm" },
 ];
-const settings = ['Login', 'Logout'];
+const settings = ['Logout'];
 const appName = "Transportes"
 
 const ApplicationBar = () => {
@@ -44,6 +46,7 @@ const ApplicationBar = () => {
   };
 
   const handleCloseUserMenu = () => {
+    setUserLoggedInfo(null);
     setAnchorElUser(null);
   };
 

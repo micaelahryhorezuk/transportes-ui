@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   headerCardContent: {},
   body: {},
   bodyCard: {
-    width: '90vw',
+    width: '95vw',
     display: 'flex',
     direction: 'column',
     margin: '15px 15px 15px 15px',

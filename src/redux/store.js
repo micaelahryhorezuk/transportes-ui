@@ -23,7 +23,7 @@ export const setReduxData = (functionName, data) => {
 
 export const loadState = () => {
     try {
-        return JSON.parse(localStorage.getItem('proguidemc.state') || "");
+        return JSON.parse(localStorage.getItem('transportes.state') || "");
     } catch (error) {
         return undefined;
     }
@@ -31,7 +31,7 @@ export const loadState = () => {
 
 const saveState = (state) => {
     try {
-        localStorage.setItem('proguidemc.state', JSON.stringify(state));
+        localStorage.setItem('transportes.state', JSON.stringify(state));
     } catch (error) {
         return;
     }

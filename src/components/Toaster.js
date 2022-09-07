@@ -1,11 +1,10 @@
-import MuiAlert from "@mui/lab/Alert";
-import { CheckCircleOutline, Close, ErrorOutline, ExpandLess, ExpandMore, InfoOutlined, WarningOutlined } from "@mui/icons-material";
-import { IconButton, Snackbar, SnackbarContent } from "@mui/material";
-import { makeStyles } from '@mui/styles';
 import React, { useState } from "react";
+import { CheckCircleOutline, Close, ErrorOutline, ExpandLess, ExpandMore, InfoOutlined, WarningOutlined } from "@mui/icons-material";
+import { IconButton, SnackbarContent, Alert, Snackbar } from "@mui/material";
+import { makeStyles } from '@mui/styles';
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+function MuiAlert(props) {
+  return <Alert elevation={6} variant="filled" {...props} />;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +63,7 @@ const Toaster = (props) => {
   const classes = useStyles(props);
   const [open, setOpen] = useState(false);
 
-  const handleClose = (_event, reason=false) => {
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -74,6 +73,7 @@ const Toaster = (props) => {
   return (
     <div className={props.classes?.root || classes.root}>
       <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={props.open}
         autoHideDuration={
           props.description && !props.duration ? 60000 : props.duration || 3000
@@ -81,8 +81,8 @@ const Toaster = (props) => {
         onClose={handleClose}
         className={props.classes?.snackbar || classes.snackbar}
       >
-        <>
-          <Alert
+        <div>
+          <MuiAlert
             className={props.classes?.alert}
             action={
               <>
@@ -131,8 +131,8 @@ const Toaster = (props) => {
                 message={props.description}
               />
             )}
-          </Alert>
-        </>
+          </MuiAlert>
+        </div>
       </Snackbar>
     </div>
   );

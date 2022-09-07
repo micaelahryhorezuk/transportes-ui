@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Card, CardContent, CardMedia, Typography, Grid, CircularProgress } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import { APIPrivate } from "../utils/constants";
 import axios from "axios";
+import { Card, CardContent, CardMedia, Typography, Grid } from '@mui/material';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import { makeStyles } from '@mui/styles';
+import { APIPrivate } from "../utils/constants";
+import { openToaster } from "../redux/hooks/toaster";
+import { closeLoading, openLoading } from "../redux/hooks/loading";
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -57,65 +59,64 @@ function ServicePage() {
         setLoading(true);
         axios.get(`${APIPrivate}/service`)
         .then(res => {
-            setItems(res?.data || [])
-            setLoading(false)
+            setItems(res?.data || []);
+            setLoading(false);
         })
         .catch(err => {
             console.error(err)
-            setLoading(false)
+            setLoading(false);
+            openToaster({message: "Error al obtener elementos", type: "error"});
         })
+    }, [])
+
+    useEffect(() => {
+        if (loading) {
+            openLoading({message: 'Cargando elementos, espere por favor...'});
+        } else {
+            closeLoading();
+        }
     }, [loading])
 
 
 
     return (
         <main className={classes.main}>
-        {
-            !loading 
-            ?
-                <Grid className={classes.root} container>
-                    {
-                        Array.isArray(items) && items.length > 0
-                        ? 
-                            items.map((item, index) => 
-                                <Grid key={index} item>
-                                    <Card className={classes.card}>
-                                        <CardMedia
-                                            className={classes.cardMedia}
-                                            component="img"
-                                            alt={"img-" + index}
-                                            image={item?.image || "images/default.png"}
-                                            onError={e => {
-                                                e.target.src = "images/default.png";
-                                            }}
-                                        />
-                                        <CardContent className={classes.cardContent}>
-                                            <Typography gutterBottom variant="h5">
-                                                {item?.caption || ""}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                {item?.description || ""}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            )
-                        :
-                            <Grid className={classes.child} item>
-                                <Typography className={classes.noMargin} gutterBottom variant="body1">
-                                    No hay novedades para mostrar
+            <Grid className={classes.root} container>
+            {
+                Array.isArray(items) && items.length > 0
+                ? 
+                items.map((item, index) => 
+                    <Grid key={index} item>
+                        <Card className={classes.card}>
+                            <CardMedia
+                                className={classes.cardMedia}
+                                component="img"
+                                alt={"img-" + index}
+                                image={item?.image || "images/default.png"}
+                                onError={e => {
+                                    e.target.src = "images/default.png";
+                                }}
+                            />
+                            <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5">
+                                    {item?.caption || ""}
                                 </Typography>
-                                <SentimentVeryDissatisfiedIcon fontSize="large"/>
-                            </Grid>
-                    }
-                </Grid>
-            : 
-                <Grid className={classes.root} container>
-                    <Grid className={classes.child} item>
-                        <CircularProgress />
+                                <Typography variant="body2">
+                                    {item?.description || ""}
+                                </Typography>
+                            </CardContent>
+                        </Card>
                     </Grid>
+                )
+                :
+                <Grid className={classes.child} item>
+                    <Typography className={classes.noMargin} gutterBottom variant="body1">
+                        No hay novedades para mostrar
+                    </Typography>
+                    <SentimentVeryDissatisfiedIcon fontSize="large"/>
                 </Grid>
-        }
+            }
+            </Grid>
         </main>
     );
 }

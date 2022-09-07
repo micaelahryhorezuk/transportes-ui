@@ -1,4 +1,5 @@
 import './App.css';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Route, BrowserRouter, Routes, Navigate, useParams, useNavigate } from 'react-router-dom';
 import ContactoPage from './pages/ContactPage';
 import HomePage from './pages/HomePage';
@@ -14,7 +15,7 @@ import { closeToaster, useToaster } from './redux/hooks/toaster';
 import Dialog from './components/Dialog';
 import Loading from './components/Loading';
 import Toaster from './components/Toaster';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import AbmPage from './pages/AbmPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/service"  element={ <WithParams component={ServicePage}/> } />
             <Route path="/staff"  element={ <WithParams component={StaffPage}/> } />
             <Route path="/contact"  element={ <WithParams component={ContactoPage}/> } />
+            <Route path="/abm"  element={ <WithParams component={AbmPage} params={{abm: "staff"}} /> } />
           </Routes>
         </Custom>
       </BrowserRouter>

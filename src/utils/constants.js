@@ -23,8 +23,8 @@ export const theme = responsiveFontSizes(
         dark: "#0ec254",
       },
       warning: {
-        main: "#E0B500",
-        dark: "#E0B500",
+        main: "#FFD100",
+        dark: "#F2BC00",
       },
       error: {
         main: "#D33939",
