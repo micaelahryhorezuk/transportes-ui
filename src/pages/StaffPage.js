@@ -62,7 +62,7 @@ function StaffPage(props) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (props.items.length !== items.length) {
+        if (props.items) {
             loaded.current = false;
         }
 
@@ -84,7 +84,7 @@ function StaffPage(props) {
                 openToaster({message: "Error al obtener elementos", type: "error"});
             })
         }
-    }, [props, items.length])
+    }, [props])
 
     useEffect(() => {
         if (loading) {

@@ -25,7 +25,7 @@ const pages = [
   { name: "Contacto", value: "contact" },
   { name: "Abm", value: "abm" },
 ];
-const settings = ['Logout'];
+// const settings = ['Logout'];
 const appName = "Transportes"
 
 const ApplicationBar = () => {
@@ -162,11 +162,11 @@ const ApplicationBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting, index) => (
+              {/* {settings.map((setting, index) => (
                 <MenuItem key={index} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
             </Menu>
           </Box>
         </Toolbar>
